@@ -1,49 +1,62 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
 #include<iostream>
-#include<string.h> 
-#include<vector>
 #include<algorithm>
-#include<cctype>
-//#include<functional>
+#include<vector>
 using namespace std;
-class Container
-{
-	private: int obj;
-	public:Container();
-	~Container();
-	void SetMethod(int a)
+template <class T>class Container
+{ 
+	public:
+		T obj;
+	Container(T contain)
 	{
-		obj=a;
+		obj = contain;
 	}
-	int GetMethod()
+	  Container(){};
+	 ~Container(){};
+	void setMethod(T input)
 	{
+		obj = input;		
+	}
+	T getMethod() const {
 		return obj;
 	}
 };
-bool IsOdd(int i)
-{
-    return i%2==0;
+
+bool isOdd(Container<int> i){
+    return (i.getMethod()%2)==0;
 }
+
+
+ostream& operator << (ostream& cout, const Container<int> &c) {
+	cout << c.getMethod();
+	return cout;
+}
+
 int main()
-{ /*
-	Container *ob1,*ob2,*ob3;
-	ob1->SetMethod(60);
-	cout<<ob1->GetMethod();
-	ob1->SetMethod(80);
-	cout<<ob1->GetMethod();
-	ob1->SetMethod(100);
-	cout<<ob1->GetMethod();
-	//vector< Container> vec={<vector<ob1>,vector<ob2>,vector<ob3>};*/
-	vector<int> v = {1,5,7,8,9,10};
-	int x;
-	vector<int> ::iterator it =find_if(v.begin(),v.end(),IsOdd);
-	    //cout<<*it;
-	for(int i=0;i<v.size();i++)
-	    cout<<v[i]<<" ";
-	cout<<endl;
-	    
-	v.erase(remove_if(v.begin(),v.end(),IsOdd));
-	for(int i=0;i<v.size();i++)
-	    cout<<v[i]<<" ";
-	
+{
+	vector<Container<int> > container ;
+	Container<int> obj1, obj2;
+	obj1.setMethod(10);
+	obj2.setMethod(9);
+	container.push_back(obj1);
+	container.push_back(obj2);
+    cout<< "AFISARE VECTOR: ";
+    for (auto i : container)
+		cout << i.getMethod() << " ";
+    cout<<endl;
+	auto it  = find_if(container.begin(), container.end(),isOdd);
+    cout<<"pare: "<< *it <<endl;
+    container.erase(remove_if(container.begin(), container.end(), isOdd),container.end()); 
+    for (auto i : container)
+		cout << i.getMethod() << " ";
+    cout<<endl;
+	 
 	return 0;
 }
