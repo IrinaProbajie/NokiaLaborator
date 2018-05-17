@@ -1,20 +1,28 @@
 /******************************************************************************
-
                               Online C++ Compiler.
                Code, Compile, Run and Debug C++ program online.
 Write your code in this editor and press "Run" button to compile and execute it.
-
 *******************************************************************************/
 
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <list>
+#include <functional>
 using namespace std;
+using namespace std::placeholders;
  struct SM{
  	std::string ipRangeStart;
  	std::string ipRangeStop;
  	int clients;//numarul de oameni logati in acel moment
+ 	/*int connect(int a)
+ 	    {
+ 	        if(a<10)
+ 	            clients-=1;
+ 	        else
+ 	            clients+=1;
+ 	        return clients;
+ 	    }*/
  };
  template <class T>
  class StateMachine
@@ -43,9 +51,26 @@ using namespace std;
  	    void afisare()
  	    {
  	        for (auto i : container_)
-		        cout << i.ipRangeStart <<" "<<i.ipRangeStop<<endl;
+		        cout << i.ipRangeStart <<" "<<i.ipRangeStop<<" "<<i.clients<<endl;
             cout<<endl;
  	    }
+ 	    void connect(string Start, string Stop,int a)
+ 	    {
+ 	        for (auto i : container_)
+ 	        
+ 	        {
+ 	            if(Start == i.ipRangeStop &&Stop == i.ipRangeStart)
+ 	            {
+         	        if(i.clients>a)
+         	            i.clients-=1;
+         	        else
+         	            i.clients+=1;
+ 	            }
+ 	            
+ 	        }
+ 	    }
+ 	 
+ 	    //auto bound_member_fn = std::bind (&SM::connect,_1,_2);
  };
 
  template<class T>
@@ -82,15 +107,17 @@ using namespace std;
       	     this.message_=Message;
       	}
       	//functie pt Sm cand i se schimba starea;
+      	/*auto bound_member_fn = std::bind (&SM::connect,_1);
+      	std::cout << bound_member_fn() << '\n';*/
   };
-  template <class T,class U, class Z>std::shared_ptr<Watcher<T,U,Z>>watcherPtr_;
+    template <class T,class U, class Z>std::shared_ptr<Watcher<T,U,Z>>watcherPtr_;
   
      		
-   template <class T,class U, class Z>
-   class Notifier{
-   
-   	private:
-   	    std::vector<const Watcher<T,U,Z>> subscribers_;
+    template <class T,class U, class Z>
+    class Notifier
+    {
+    	private:
+   	        std::vector<const Watcher<T,U,Z>> subscribers_;
    	
    };
    
@@ -101,15 +128,20 @@ int main()
     cout<<"Hello World"<<endl;
     
     struct SM ob,ob2;
-    ob.ipRangeStart="ana";
-    ob.ipRangeStop="mere";
-    ob2.ipRangeStart="ana2";
-    ob2.ipRangeStop="mere2";
-    ob.clients=20;
+    ob.ipRangeStart="90";
+    ob.ipRangeStop="150";
+    ob2.ipRangeStart="102";
+    ob2.ipRangeStop="150";
+    ob.clients=200;
+    ob2.clients=100;
     StateMachine<int>state;
     state.pushCont(ob);
     state.pushCont(ob2);
+    
     state.afisare();
+    state.connect("90","150",100);
+    state.connect("102","150",101);
+    state.afisare();
+    
     return 0;
 }
-
