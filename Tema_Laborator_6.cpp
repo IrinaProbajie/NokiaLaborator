@@ -1,9 +1,10 @@
 /******************************************************************************
+
                               Online C++ Compiler.
                Code, Compile, Run and Debug C++ program online.
 Write your code in this editor and press "Run" button to compile and execute it.
-*******************************************************************************/
 
+*******************************************************************************/
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -73,15 +74,15 @@ using namespace std::placeholders;
  	    //auto bound_member_fn = std::bind (&SM::connect,_1,_2);
  };
 
- template<class T>
- std::shared_ptr<StateMachine<T>> SMPtr_;
- template<class T>
- std::shared_ptr<const StateMachine<T>>SMCPtr_;
+ template<class T> 
+ using SMPtr_ = std::shared_ptr<StateMachine<T>> ;
+ template<class T> 
+ using SMCPtr_ = std::shared_ptr<const StateMachine<T>>;
  
   template <class T,class U, class Z>
   class Watcher{
   	private:
-  		list<StateMachine<T>> stateMachinesPtr_;
+  		list<SMPtr_<T>> stateMachinesPtr_;
   		U message_;
   		Z relevance_;
   	public:
@@ -110,19 +111,22 @@ using namespace std::placeholders;
       	/*auto bound_member_fn = std::bind (&SM::connect,_1);
       	std::cout << bound_member_fn() << '\n';*/
   };
-    template <class T,class U, class Z>std::shared_ptr<Watcher<T,U,Z>>watcherPtr_;
+    template <class T,class U, class Z> 
+    using watcherPtr_ = std::shared_ptr<Watcher<T,U,Z>>;
   
      		
     template <class T,class U, class Z>
     class Notifier
     {
     	private:
-   	        std::vector<const Watcher<T,U,Z>> subscribers_;
+   	        std::vector<watcherPtr_<T,U,Z>> subscribers_;
    	
    };
    
-   template <class T,class U, class Z> std::shared_ptr<Notifier<T,U,Z>> notifierPtr_;
-   template <class T,class U, class Z> std::shared_ptr<const Notifier<T,U,Z>> notifierCPtr_; 
+   template <class T,class U, class Z> 
+   using notifierPtr_ = std::shared_ptr<Notifier<T,U,Z>> ;
+   template <class T,class U, class Z> 
+   using notifierCPtr_ = std::shared_ptr<const Notifier<T,U,Z>> ; 
 int main()
 {
     cout<<"Hello World"<<endl;
@@ -145,3 +149,4 @@ int main()
     
     return 0;
 }
+
